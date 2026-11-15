@@ -30,15 +30,23 @@ class MyDataset(Dataset):
       #cleanFileName:str = "/clean_"
       #contFileName:str = "/contaminated_"
 
+      tempFileList:list = []
+
+
+
       if(folderType == 0):
          partialPath = str(self.imgCollection[0])
 
       elif(folderType == 1):
          partialPath = str(self.imgCollection[1])
 
-      fileList = os.listdir(partialPath)
-
-      print(str(fileList) + "\n")
+      fileList = (os.listdir(partialPath))
+      fileList.pop(0)      
+   
+      
+      #### !!!!!!! Pick up here. need to sort the file list that is created in order to match the index with the file name
+      
+      print(fileList[index])
 
       return fileList[index]
 

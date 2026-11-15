@@ -16,7 +16,7 @@ dataSetLabel = [0,1]
 dataset = MyDataset(dataSetList, dataSetLabel)
 
 
-dataset.__getitem__(0,3)
+dataset.__getitem__(1,3)
 
 
 
