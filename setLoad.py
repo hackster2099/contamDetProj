@@ -6,10 +6,6 @@ import math
 import os
 import cv2 as cv
 
-imgCleanFolder = "/Users/faresshirali/Desktop/McNair/pythonFiles/imgBank/realistic_synthetic_petri_dataset/clean"
-imgContFolder = "/Users/faresshirali/Desktop/McNair/pythonFiles/imgBank/realistic_synthetic_petri_dataset/contaminated"
-
-
 
 class MyDataset(Dataset):
 
@@ -17,55 +13,36 @@ class MyDataset(Dataset):
    imgCollection: list
 
    # instance variable, it contains image file paths as an array
-   lableCollection: list
+   labelCollection: list
 
-   def __init__(self, imgCollection:list, labelCollection:list):
+   def __init__(self, rootPath:str):
       
-      self.imgCollection = imgCollection
-      self.lableCollection = labelCollection
+      self.imgCollection = []
+      self.labelCollection = []
 
-   def __getitem__(self, folderType:int ,index:int):
-   
-      # is it needed ? 
-      #cleanFileName:str = "/clean_"
-      #contFileName:str = "/contaminated_"
+      cleanImgPath:str = str(rootPath) + "/clean"
+      contImgPath:str = str(rootPath) + "/contaminated"
 
-      tempFileList:list = []
-
-
-
-      if(folderType == 0):
-         partialPath = str(self.imgCollection[0])
-
-      elif(folderType == 1):
-         partialPath = str(self.imgCollection[1])
-
-      fileList = (os.listdir(partialPath))
-      fileList.pop(0)      
-   
+      for NumOfFiles in range(0, (len(os.listdir(cleanImgPath))-1)):
+         for files in (os.listdir(cleanImgPath)):
+            if(files.startswith("clean_" + str(NumOfFiles) + ".png")):
+               self.imgCollection.append(os.path.join(cleanImgPath, files))
+               self.labelCollection.append(0)
+               break
       
-      #### !!!!!!! Pick up here. need to sort the file list that is created in order to match the index with the file name
-      
-      print(fileList[index])
 
-      return fileList[index]
+      for NumOfFiles in range(0, (len(os.listdir(contImgPath))-1)):
+         for files in (os.listdir(contImgPath)):
+            if(files.startswith("contaminated_" + str(NumOfFiles) + ".png")):
+               self.imgCollection.append(os.path.join(contImgPath, files))
+               self.labelCollection.append(1)
+               break
+         
+   def __getitem__(self, index:int):
 
+      return self.imgCollection[index]
 
    # folder type referes to the type of images i want to look at. 0 for clean folder, 1 for contaminated folder
-   def __len__(self, folderType:int):
-
-      fileCount:int = 0
-      fileList:list
-      
-      if(folderType == 0):
-         filePath = str(self.imgCollection[0])
-
-      elif (folderType == 1): 
-         filePath = str(self.imgCollection[1])
-
-      fileList = os.listdir(filePath)
-   
-      fileCount = len(fileList)
-
-      return fileCount
+   def __len__(self):
+      return len(self.imgCollection)
 

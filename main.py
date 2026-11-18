@@ -6,22 +6,11 @@ import torch
 import torch.nn as nn
 from setLoad import MyDataset
 
-cleanDataSet = "/Users/faresshirali/Desktop/McNair/pythonFiles/imgBank/realistic_synthetic_petri_dataset/clean"
-contDataSet = "/Users/faresshirali/Desktop/McNair/pythonFiles/imgBank/realistic_synthetic_petri_dataset/contaminated"
+
+imgBankPath = "/Users/faresshirali/Desktop/McNair/pythonFiles/imgBank/realistic_synthetic_petri_dataset"
 
 
-dataSetList = [cleanDataSet, contDataSet]
-dataSetLabel = [0,1]
-
-dataset = MyDataset(dataSetList, dataSetLabel)
-
-
-dataset.__getitem__(1,3)
-
-
-
-
-
+dataset = MyDataset(imgBankPath)
 
 
 
