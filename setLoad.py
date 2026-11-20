@@ -1,6 +1,6 @@
 import torch
 import torchvision
-from torch.utils.data import Dataset, DataLoader
+from torch.utils.data import Dataset
 import numpy as np
 import math
 import os
@@ -39,10 +39,16 @@ class MyDataset(Dataset):
                break
          
    def __getitem__(self, index:int):
+      
+      img = cv.imread(self.imgCollection[index])
+      img = cv.resize(img, 224, 224)
+      tensorConvert = torch.tensor(img)
 
-      return self.imgCollection[index]
+      return tensorConvert
+
 
    # folder type referes to the type of images i want to look at. 0 for clean folder, 1 for contaminated folder
    def __len__(self):
       return len(self.imgCollection)
+
 
